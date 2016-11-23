@@ -130,7 +130,7 @@ var Game = function (_React$Component2) {
         var desc = move ? "Move #" + move : "Game Start";
         return React.createElement(
           "li",
-          { key: move },
+          { key: move, className: _this4.state.stepNumber == move ? 'current' : '' },
           React.createElement(
             "a",
             { href: "#", onClick: function onClick() {
