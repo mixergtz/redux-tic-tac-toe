@@ -89,6 +89,7 @@ var Game = function (_React$Component2) {
       history: [{
         squares: Array(9).fill(null)
       }],
+      movesAscOrder: true,
       xIsNext: true,
       stepNumber: 0
     };
@@ -121,6 +122,11 @@ var Game = function (_React$Component2) {
         stepNumber: step,
         xIsNext: step % 2 ? false : true
       });
+    }
+  }, {
+    key: "sortMoves",
+    value: function sortMoves() {
+      this.setState({ movesAscOrder: !this.state.movesAscOrder });
     }
   }, {
     key: "render",
@@ -168,6 +174,13 @@ var Game = function (_React$Component2) {
           "div",
           { className: "game-info" },
           React.createElement(
+            "a",
+            { href: "#", onClick: function onClick() {
+                return _this5.sortMoves();
+              } },
+            "Sort order"
+          ),
+          React.createElement(
             "div",
             null,
             status
@@ -175,7 +188,7 @@ var Game = function (_React$Component2) {
           React.createElement(
             "ol",
             null,
-            moves
+            this.state.movesAscOrder ? moves : moves.reverse()
           )
         )
       );
