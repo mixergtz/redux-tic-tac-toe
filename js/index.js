@@ -4,6 +4,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -41,31 +43,33 @@ var Board = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
+      var rows = [];
+
+      var _loop = function _loop(i) {
+        rows.push(React.createElement(
+          "div",
+          { className: "board-row", key: i },
+          [].concat(_toConsumableArray(Array(3))).map(function (x, j) {
+            return React.createElement(
+              "span",
+              { key: i + j },
+              _this3.renderSquare(i + j)
+            );
+          })
+        ));
+      };
+
+      for (var i = 0; i <= 6; i += 3) {
+        _loop(i);
+      }
+
       return React.createElement(
         "div",
         null,
         React.createElement("div", { className: "status" }),
-        React.createElement(
-          "div",
-          { className: "board-row" },
-          this.renderSquare(0),
-          this.renderSquare(1),
-          this.renderSquare(2)
-        ),
-        React.createElement(
-          "div",
-          { className: "board-row" },
-          this.renderSquare(3),
-          this.renderSquare(4),
-          this.renderSquare(5)
-        ),
-        React.createElement(
-          "div",
-          { className: "board-row" },
-          this.renderSquare(6),
-          this.renderSquare(7),
-          this.renderSquare(8)
-        )
+        rows
       );
     }
   }]);
@@ -79,16 +83,16 @@ var Game = function (_React$Component2) {
   function Game() {
     _classCallCheck(this, Game);
 
-    var _this3 = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this));
+    var _this4 = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this));
 
-    _this3.state = {
+    _this4.state = {
       history: [{
         squares: Array(9).fill(null)
       }],
       xIsNext: true,
       stepNumber: 0
     };
-    return _this3;
+    return _this4;
   }
 
   _createClass(Game, [{
@@ -121,7 +125,7 @@ var Game = function (_React$Component2) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var history = this.state.history;
       var current = history[this.state.stepNumber];
@@ -130,11 +134,11 @@ var Game = function (_React$Component2) {
         var desc = move ? "Move #" + move : "Game Start";
         return React.createElement(
           "li",
-          { key: move, className: _this4.state.stepNumber == move ? 'current' : '' },
+          { key: move, className: _this5.state.stepNumber == move ? 'current' : '' },
           React.createElement(
             "a",
             { href: "#", onClick: function onClick() {
-                return _this4.jumpTo(move);
+                return _this5.jumpTo(move);
               } },
             desc
           )
@@ -156,7 +160,7 @@ var Game = function (_React$Component2) {
           React.createElement(Board, {
             squares: current.squares,
             onClick: function onClick(i) {
-              return _this4.handleClick(i);
+              return _this5.handleClick(i);
             }
           })
         ),
