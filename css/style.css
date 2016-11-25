@@ -52,3 +52,7 @@ ol, ul {
 .current{
   font-weight: bold;
 }
+
+.winner{
+  background-color: #d4e7ff;
+}

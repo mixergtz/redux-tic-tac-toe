@@ -15,7 +15,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function Square(props) {
   return React.createElement(
     "button",
-    { className: "square", onClick: function onClick() {
+    { className: "square" + (props.winner ? " winner" : ""), onClick: function onClick() {
         return props.onClick();
       } },
     props.value
@@ -38,7 +38,7 @@ var Board = function (_React$Component) {
 
       return React.createElement(Square, { value: this.props.squares[i], onClick: function onClick() {
           return _this2.props.onClick(i);
-        } });
+        }, winner: this.props.winner_combination.includes(i) });
     }
   }, {
     key: "render",
@@ -153,7 +153,7 @@ var Game = function (_React$Component2) {
 
       var status = void 0;
       if (winner) {
-        status = "Winner: " + winner;
+        status = "Winner: " + winner["winner"];
       } else {
         status = "Next player: " + (this.state.xIsNext ? "X" : "O");
       }
@@ -167,7 +167,8 @@ var Game = function (_React$Component2) {
             squares: current.squares,
             onClick: function onClick(i) {
               return _this5.handleClick(i);
-            }
+            },
+            winner_combination: winner ? winner["winner_combination"] : []
           })
         ),
         React.createElement(
@@ -211,7 +212,10 @@ function calculateWinner(squares) {
         c = _lines$i[2];
 
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      // console.log(a)
+      // console.log(b)
+      // console.log(c)
+      return { winner_combination: [a, b, c], winner: squares[a] };
     }
   }
   return null;
